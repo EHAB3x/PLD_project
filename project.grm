@@ -1,0 +1,82 @@
+"Start Symbol" = <program>
+               
+!-------Terminal---------
+Id={letter}
+Digit = {digit}
+!-------Rules------------
+
+<program> ::= Start <statement_list> End
+           
+<statement_list> ::= <statement>
+                  |<statement><statement_list>
+                  
+<statement> ::= <assign>
+             |<if>
+             |<for>
+             |<switch>
+             
+<assign>::= <id>'='<expr>';'
+         
+<id> ::= Id
+      
+<expr> ::= <expr>'+'<term>
+        |<expr>'-'<term>
+        |<term>
+        
+<term> ::= <term>'*'<factor>
+        |<term>'/'<factor>
+        |<term>'%'<factor>
+
+<factor> ::= <factor>'**'<exp>
+          |<exp>
+          
+<exp> ::= '('<expr>')'
+       |<id>
+       |<digit>
+       
+<digit> ::= Digit
+         
+!-------------IF------------
+<if> ::= if'('<cond>')' Start <statement_list> End
+      |if'('<cond>')' Start <statement_list> End else <statement_list>
+      
+<cond>::= <expr><op><expr>
+       
+<op>::= '<'|'>'|'=='|'!='
+     
+!-------------For----------
+
+<for> ::= For'('<data><assign>';' <cond>';' <step>')''{'<statement_list>'}'
+       
+<data> ::= int | float | double| string
+        
+<step> ::= --<id>
+        |<id>'--'
+        |'++'<id>
+        |<id>'++'
+        |<assign>
+        
+!-------------Switch----------
+<switch> ::= Switch '(' <expr> ')' Start <switch_case_list> End
+          
+<switch_case_list> ::= <switch_case> <switch_case_list>                     
+                    | <switch_case>
+                    
+<switch_case> ::= Case <literal> ':' <statement_list>                
+               | Default ':' <statement_list>
+               
+<literal> ::= <integer_literal>            
+           | <string_literal>            
+           | <boolean_literal>
+           
+<integer_literal> ::= <digit>'+'
+                   
+<string_literal> ::= '"' '[''^''\''"'']''*' '"'
+                  
+<boolean_literal> ::= true | false
+                   
+!-----------While----------------
+<while> ::= while'('<cond>')' Start <statement_list> End
+         
+!-----------do While----------------
+<do_while> ::= do Start <statement_list> End while'('<cond>')'';'
